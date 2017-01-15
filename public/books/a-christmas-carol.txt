@@ -1,40 +1,6 @@
-﻿The Project Gutenberg EBook of A Christmas Carol, by Charles Dickens
-
-This eBook is for the use of anyone anywhere at no cost and with
-almost no restrictions whatsoever.  You may copy it, give it away or
-re-use it under the terms of the Project Gutenberg License included
-with this eBook or online at www.gutenberg.net
-
-
-Title: A Christmas Carol
-       A Ghost Story of Christmas
-
+﻿Title: A Christmas Carol A Ghost Story of Christmas
 Author: Charles Dickens
-
-Release Date: August 11, 2004 [EBook #46]
-
 Language: English
-
-
-*** START OF THIS PROJECT GUTENBERG EBOOK A CHRISTMAS CAROL ***
-
-
-
-
-Produced by Jose Menendez
-
-
-
-
-A CHRISTMAS CAROL
-
-IN PROSE
-BEING
-A Ghost Story of Christmas
-
-by Charles Dickens
-
-
 
 PREFACE
 
@@ -47,18 +13,6 @@ pleasantly, and no one wish to lay it.
 Their faithful Friend and Servant,
                                    C. D.
 December, 1843.
-
-
-
-CONTENTS
-
-Stave   I: Marley's Ghost
-Stave  II: The First of the Three Spirits
-Stave III: The Second of the Three Spirits
-Stave  IV: The Last of the Spirits
-Stave   V: The End of It
-
-
 
 STAVE I:  MARLEY'S GHOST
 
