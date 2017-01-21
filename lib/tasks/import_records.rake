@@ -1,3 +1,5 @@
+require "benchmark"
+
 namespace :import do
   BOOKS_PATH = "#{Rails.public_path}/books/"
 
@@ -14,9 +16,13 @@ namespace :import do
   def read_book(file_name)
     file_path = "#{BOOKS_PATH}/#{file_name}"
     file = File.open(file_path, "rb")
-    contents = file.read
-    book_details = book_details(contents)
-    Book.new(book_details)
+    book_text = file.read
+    Book.new(book_contents(book_text))
+  end
+
+  def book_contents(book_text)
+    book_details = book_details(book_text)
+    book_details.merge({ sentences: book_sentences(book_text) })
   end
 
   def book_details(book_contents)
@@ -28,9 +34,9 @@ namespace :import do
   end
 
   def book_sentences(book_contents)
-    puts "SEGEMENT".green
+    puts "Extract Sentences text".yellow
     sentences = extract_sentences(book_contents)
-    puts "CREATE MODELS".green
+    puts "Create Sentences".yellow
     sentences.reduce([]){|result, sentence_text| result << Sentence.new(content: sentence_text)}
   end
 
@@ -40,18 +46,25 @@ namespace :import do
 
   desc 'Import Book from files.'
   task books: :environment do
-    puts "Start reading the books...".yellow
-    books = read_books
-    puts "Importing books...".yellow
-    Book.import(books)
+    time = Benchmark.measure do
+      puts "Start reading the books...".green
+      books = read_books
+      puts "Importing books...".yellow
+      books.each{ |book| book.save }
+    end
+    puts "Time: ".green
+    puts time
   end
 
-  desc 'Import Book Sentences from files.'
-  task sentences: :environment do
-    puts "START".yellow
-    file_path = "#{BOOKS_PATH}/test.txt"
-    file = File.open(file_path, "rb")
-    contents = file.read
-    book_sentences(contents)
+  desc 'Import Book from files with ActiceRecord Import.'
+  task books_faster: :environment do
+    time = Benchmark.measure do
+      puts "Start reading the books...".green
+      books = read_books
+      puts "Importing books...".yellow
+      Book.import(books)
+    end
+    puts "Time: ".green
+    puts time
   end
 end
