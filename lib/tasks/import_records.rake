@@ -5,8 +5,7 @@ namespace :import do
 
   def read_books
     books = []
-    #Dir.foreach(BOOKS_PATH) do |item|
-    ["lusiadas.txt"].each do |item|
+    Dir.foreach(BOOKS_PATH) do |item|
       next if item == '.' or item == '..'
       puts "Reading #{item}...".green
       books << read_book(item)
