@@ -46,23 +46,17 @@ namespace :import do
 
   desc 'Import Book from files.'
   task books: :environment do
-    time = Benchmark.measure do
+    time = Benchmark.measure do |x|
       puts "Start reading the books...".green
-      books = read_books
+      x.report("Extract Books:"){ books = read_books }
       puts "Importing books...".yellow
-      books.each{ |book| book.save }
-    end
-    puts "Time: ".green
-    puts time
-  end
+      x.report("Regular Import:"){ books.each{ |book| book.save } }
 
-  desc 'Import Book from files with ActiceRecord Import.'
-  task books_faster: :environment do
-    time = Benchmark.measure do
-      puts "Start reading the books...".green
-      books = read_books
+      puts "Reset Database".yellow
+      Book.destroy_all
+
       puts "Importing books...".yellow
-      Book.import(books)
+      x.report("ActiveRecord Import:"){ Book.import(books, recursive: true) }
     end
     puts "Time: ".green
     puts time
