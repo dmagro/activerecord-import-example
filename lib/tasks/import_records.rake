@@ -5,7 +5,8 @@ namespace :import do
 
   def read_books
     books = []
-    Dir.foreach(BOOKS_PATH) do |item|
+    #Dir.foreach(BOOKS_PATH) do |item|
+    ["lusiadas.txt"].each do |item|
       next if item == '.' or item == '..'
       puts "Reading #{item}...".green
       books << read_book(item)
@@ -46,14 +47,16 @@ namespace :import do
 
   desc 'Import Book from files.'
   task books: :environment do
-    time = Benchmark.measure do |x|
+    time = Benchmark.bmbm do |x|
+      books = []
       puts "Start reading the books...".green
       x.report("Extract Books:"){ books = read_books }
+
       puts "Importing books...".yellow
       x.report("Regular Import:"){ books.each{ |book| book.save } }
 
       puts "Reset Database".yellow
-      Book.destroy_all
+      x.report("Delete Records:"){Sentence.destroy_all; Book.destroy_all}
 
       puts "Importing books...".yellow
       x.report("ActiveRecord Import:"){ Book.import(books, recursive: true) }
