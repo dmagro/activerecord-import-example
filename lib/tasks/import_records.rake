@@ -55,7 +55,5 @@ namespace :import do
       x.report("Delete Records:"){Sentence.destroy_all; Book.destroy_all}
       x.report("ActiveRecord Import:"){ Book.import(books, recursive: true) }
     end
-    puts "Time: ".green
-    puts time
   end
 end
