@@ -37,7 +37,9 @@ namespace :import do
     puts "Extract Sentences text".yellow
     sentences = extract_sentences(book_contents)
     puts "Create Sentences".yellow
-    sentences.reduce([]){|result, sentence_text| result << Sentence.new(content: sentence_text)}
+    sentences_records = sentences.reduce([]){|result, sentence_text| result << Sentence.new(content: sentence_text)}
+    puts "Extracted #{sentences_records.count} sentences"
+    sentences_records
   end
 
   def extract_sentences(book_contents)
@@ -48,16 +50,9 @@ namespace :import do
   task books: :environment do
     time = Benchmark.bmbm do |x|
       books = []
-      puts "Start reading the books...".green
       x.report("Extract Books:"){ books = read_books }
-
-      puts "Importing books...".yellow
       x.report("Regular Import:"){ books.each{ |book| book.save } }
-
-      puts "Reset Database".yellow
       x.report("Delete Records:"){Sentence.destroy_all; Book.destroy_all}
-
-      puts "Importing books...".yellow
       x.report("ActiveRecord Import:"){ Book.import(books, recursive: true) }
     end
     puts "Time: ".green
